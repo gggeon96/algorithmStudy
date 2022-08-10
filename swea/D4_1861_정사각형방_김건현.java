@@ -13,8 +13,8 @@ public class D4_1861_정사각형방_김건현 {
 	static int N;
 	static int[][] area;
 	static int minNum;
-	static int tmp;
-	static int max = 0;
+	static int max;
+	static boolean[][] visited;
 	public static void main(String[] args) throws NumberFormatException, IOException {
 		BufferedReader br = new BufferedReader(new InputStreamReader(System.in));
 		BufferedWriter bw = new BufferedWriter(new OutputStreamWriter(System.out));
@@ -22,8 +22,10 @@ public class D4_1861_정사각형방_김건현 {
 		int T = Integer.parseInt(br.readLine());
 		
 		for(int t = 1;T>=t;t++) {
+			max = 0;
 			minNum = 0;
 			N = Integer.parseInt(br.readLine());
+			visited = new boolean[N][N];
 			area = new int[N][N];
 			for(int i=0;i<N;i++) {
 				st = new StringTokenizer(br.readLine());
@@ -33,11 +35,11 @@ public class D4_1861_정사각형방_김건현 {
 			}
 			for (int i = 0; i < N; i++) {
 				for (int j = 0; j < N; j++) {
-					dfs(i,j,0,area[i][j]);
+					visited[i][j] = true;
+					dfs(i,j,1,area[i][j]);
+					visited[i][j] = false;
 				}
 			}
-			//dfs(0,0,0);
-			
 			System.out.println("#"+t+" "+minNum+" "+max);
 			
 		}
@@ -46,23 +48,27 @@ public class D4_1861_정사각형방_김건현 {
 		
 	}
 	static void dfs(int row,int col, int count,int startNum) {
-		System.out.println("DFS called"+row+" "+col+" "+count);
+//		System.out.println("DFS called "+row+" "+col+" "+count);
 		if(count>max) {
 			max = count;
 			minNum = startNum;
+		}else if(count == max) {
+			if(startNum<minNum) {
+				minNum = startNum;
+			}
 		}
-		boolean flag = true;
 		for(int i=0;i<4;i++) {
 			//유효범위 안이면
-			if(row+dx[i]>=0&&row+dx[i]<N&&col+dy[i]>=0&&col+dy[i]<N) {
+			if(row+dx[i]>=0 && row+dx[i]<N && col+dy[i]>=0 && col+dy[i]<N) {
 				//정확히 1더 크다면
-				if((area[row+dx[i]][col+dx[i]])+1 == area[row][col]) {
-					flag = false;
-					dfs(row+dx[i],col+dx[i],count+1,startNum);
+				if((area[row+dx[i]][col+dy[i]]) == area[row][col]+1 && !visited[row+dx[i]][col+dy[i]]) {
+					visited[row+dx[i]][col+dy[i]] = true;
+					dfs(row+dx[i],col+dy[i],count+1,startNum);
+					visited[row+dx[i]][col+dy[i]] = false;
 				}
 			}
 		}
-		if(flag) return;
+		return;
 	}
 	
 }
