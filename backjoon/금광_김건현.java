@@ -2,7 +2,7 @@ package com.ssafy;
 
 import java.util.Scanner;
 
-public class 금광 {
+public class 금광_김건현 {
 	public static void main(String[] args) {
 		Scanner sc = new Scanner(System.in);
 		int T = sc.nextInt();
