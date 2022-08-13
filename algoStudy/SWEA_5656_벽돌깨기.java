@@ -4,7 +4,7 @@ import java.io.*;
 import java.util.Stack;
 import java.util.StringTokenizer;
 
-public class 벽돌깨기 {
+public class SWEA_5656_벽돌깨기 {
     static int[][] map;
     static int N;
     static int MIN;
