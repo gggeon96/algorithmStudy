@@ -1,7 +1,5 @@
 package com.kim.algoStudy;
 
-
-
 import java.io.*;
 import java.util.Arrays;
 import java.util.StringTokenizer;
@@ -15,7 +13,7 @@ public class BJ_11404_플로이드_김건현 {
         int M = Integer.parseInt(br.readLine());
         int city[][] = new int[N][N];
         for (int i = 0; i < N; i++) {
-            Arrays.fill(city[i],100001); //우선 모두 무한대
+            Arrays.fill(city[i],Integer.MAX_VALUE); //우선 모두 무한대
 
         }
 
@@ -46,7 +44,10 @@ public class BJ_11404_플로이드_김건현 {
         //출력
         for (int i = 0; i < N; i++) {
             for (int j = 0; j < N; j++) {
-                bw.write(city[i][j]+" ");
+                if(city[i][j] == Integer.MAX_VALUE)
+                    bw.write(0+" ");
+                else
+                    bw.write(city[i][j]+" ");
             }
             bw.write("\n");
         }
