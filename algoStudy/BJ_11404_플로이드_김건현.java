@@ -14,7 +14,6 @@ public class BJ_11404_플로이드_김건현 {
         int city[][] = new int[N][N];
         for (int i = 0; i < N; i++) {
             Arrays.fill(city[i],Integer.MAX_VALUE); //우선 모두 무한대
-
         }
 
         //자기 자신으로 가는 비용은 0으로 설정
