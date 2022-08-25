@@ -1,4 +1,4 @@
-package com.kim.jungol;
+package com.kim.etc;
 
 import java.io.BufferedReader;
 import java.io.IOException;
