@@ -1,4 +1,4 @@
-package day_0819;
+package com.kim.algoStudy;
 
 import java.io.BufferedReader;
 import java.io.IOException;
