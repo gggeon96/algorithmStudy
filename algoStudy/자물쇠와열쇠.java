@@ -1,77 +1,96 @@
 package com.kim.algoStudy;
 
+
+//제출은 Solution으로
 public class 자물쇠와열쇠 {
-    static int N;
-    static int M;
-    static int[][] map;
-    static int[][] turnRight90(int[][] arr){
-        int[][] tmp = new int[N][M];
-        for (int i = 0; i < N; i++) {
-            for (int j = 0; j < M; j++) {
-                tmp[j][N-1-i] = arr[i][j];
+    static int m;
+    static int n;
+    public boolean solution(int[][] key, int[][] lock) {
+        boolean answer = true;
+
+        m = key.length;
+        n = lock.length;
+
+        int len = n+m*2-2;
+        int[][] map = new int[len][len];    // 확장시킨 배열
+
+        // 확장시킨 배열에 Lock 표시
+        for(int i=m-1; i<m+n-1 ; i++){
+            for(int j=m-1; j<m+n-1; j++){
+                map[i][j] = lock[i-(m-1)][j-(m-1)];
             }
         }
-        return tmp;
+
+        //돌려서 4번조사
+        for(int pos=0; pos<4; pos++){
+            if(check(map, key, n)){
+                return true;
+            }
+            rotate(key); // 시계방향 90도 회전
+        }
+
+
+        return false;
     }
 
-    static boolean check(int[][] key, int[][] lock,int offsetX,int offsetY){
-        for (int i = 0; i < M; i++) {
-            for (int j = 0; j < M; j++) {
-                if(lock[i+offsetX][j+offsetY]==0){
-                    if(key[i][j]==1) continue;
-                    else return false;
+    //들어가는지 쳌
+    public static boolean check(int[][] map, int[][] key, int lockLen){
+        int keyLen = key.length;
+        int mapLen = map.length;
+        for(int i=0; i<mapLen-keyLen+1; i++){
+            for(int j=0; j<mapLen-keyLen+1; j++){
+
+                //합연산
+                for(int k=0; k<keyLen; k++){
+                    for(int l=0; l<keyLen; l++){
+                        map[i+k][j+l] += key[k][l];
+                    }
                 }
-                if(lock[i+offsetX][j+offsetY]==1){
-                    if(key[i][j]==0) continue;
-                    else return false;
+
+                // 전부 1이면 성공
+                boolean flag = true;
+                for(int k=keyLen-1; k<keyLen+lockLen-1; k++){
+                    for(int l=keyLen-1; l<keyLen+lockLen-1; l++){
+                        if(map[k][l] != 1){ // 1이 아니면 홈이 안 맞는 것임
+                            flag = false;
+                            break;
+                        }
+                    }
+                    if(!flag) break;
                 }
-            }
-        }
-        return true;
-    }
 
-    static int[][] copy(int[][] arr){
-                    int [][] tmp = new int[arr.length][arr.length];
-                    for (int i = 0; i < arr.length; i++) {
-                        for (int j = 0; j < arr.length; j++) {
-                            tmp[i][j] = arr[i][j];
-            }
-        }
-        return tmp;
-    }
+                if(flag) return true;   // 전부 1이였다면 true
 
-    public static boolean solution(int[][] key, int[][] lock) {
-        boolean answer = false;
-        N = lock.length;
-        M = key.length;
-        map = new int[N*3][N*3];
-        for (int i = 0; i < N ;i++) {
-            for (int j = 0; j < N ; j++) {
-                map[i+N][j+N] = lock[i][j];
-            }
-        }
-        int[][] tmp = copy(key);
-        for (int x = 0; x < N * 2; x++) {
-            for (int y = 0; y < N * 2; y++) {
-                for (int pos = 0; pos < 4; pos++) {
-                    answer = check(tmp,map,x,y);
-                    if(answer) return true;
-                    tmp = turnRight90(tmp);
+                //복구
+                for(int k=0; k<keyLen; k++){
+                    for(int l=0; l<keyLen; l++){
+                        map[i+k][j+l] -= key[k][l];
+                    }
                 }
+
             }
         }
 
-
-        return answer;
+        return false;
     }
 
-//    public static void main(String[] args) {
-//        int[][] key = {{0,0,0},{1,0,0},{0,1,1}};
-//        int[][] lock = {{1,1,1},{1,1,0},{1,0,1}};
-//        System.out.println(solution(key, lock));
-//    }
+    //90도 돌리기
+    public static void rotate(int[][] key){
+        int len = key.length;
+        int[][] temp = new int[len][len];
 
+        for(int i=0; i<len; i++){
+            for(int j=0; j<len; j++){
+                temp[i][j] = key[len-j-1][i];
+            }
+        }
 
+        for(int i=0; i<len; i++){
+            for(int j=0; j<len; j++){
+                key[i][j] = temp[i][j];
+            }
+        }
 
+    }
 
 }
