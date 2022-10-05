@@ -1,4 +1,3 @@
-package com.ssafy;
 
 import java.util.Scanner;
 
